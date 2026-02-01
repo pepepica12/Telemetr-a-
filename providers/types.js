@@ -1,8 +1,11 @@
 module.exports = {
     MessageProvider: {
-        sendMessage: 'function(numberOrChatId, text)'
+        sendMessage: 'function(identifier, text)'
     },
     EventProvider: {
         sendEvent: 'function(event, data)'
+    },
+    SchedulerProvider: {
+        run: 'function()'
     }
 };

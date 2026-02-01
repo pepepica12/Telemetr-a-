@@ -1,6 +1,10 @@
-import { runScript } from "../runner.js";
+import { SearchEngine } from "../searchEngine.js";
 
 export default async function () {
-    const output = await runScript("bash ./telemetry/scripts/script1.sh");
-    return { status: "script ejecutado", output };
+  const engine = new SearchEngine({
+    provider: "custom",
+    endpoint: "https://tu-api.com/search"
+  });
+
+  return await engine.search("consulta de ejemplo");
 }

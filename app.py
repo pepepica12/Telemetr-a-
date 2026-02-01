@@ -7,6 +7,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/telemetria.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+from flask_cors import CORS
+CORS(app)
+
 db = SQLAlchemy(app)
 
 @app.route('/')

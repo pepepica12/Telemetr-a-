@@ -19,3 +19,24 @@ def index():
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
 
+@app.route('/status')
+def status():
+    return "OK"
+
+@app.route('/saludo/<nombre>')
+def saludo(nombre):
+    return f"Hola, {nombre}!"
+
+@app.route('/sensor/<int:id>')
+def sensor(id):
+    return f"Datos del sensor {id}"
+
+from flask import jsonify
+
+@app.route('/api/info')
+def info():
+    return jsonify({
+        "status": "ok",
+        "version": "1.0",
+        "backend": "Railway"
+    })

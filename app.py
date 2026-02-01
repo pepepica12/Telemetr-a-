@@ -40,3 +40,35 @@ def info():
         "version": "1.0",
         "backend": "Railway"
     })
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+@app.route("/providers/health", methods=["GET"])
+def providers_health():
+    # Aquí podrías integrar con un servicio Node que ejecute providers/health.js
+    # Por ahora devolvemos un stub coherente
+    return jsonify({
+        "telegram": {"ok": True},
+        "whatsapp": {"ok": True},
+        "nefosys": {"ok": True},
+        "scheduler": {"ok": True}
+    })
+
+@app.route("/providers/test", methods=["POST", "GET"])
+def providers_test():
+    provider = request.args.get("provider", "all")
+    return jsonify({
+        "status": "ok",
+        "provider": provider,
+        "message": "Test ejecutado (stub). Integra aquí la llamada real a providers."
+    })
+
+@app.route("/providers/events", methods=["POST"])
+def providers_events():
+    data = request.json or {}
+    # Aquí podrías escribir en telemetry_events.log o enviar a Nefosys
+    return jsonify({
+        "status": "received",
+        "data": data
+    })

@@ -1,8 +1,12 @@
 const config = require('./config');
+const { withRetry } = require('../retry');
+const monitor = require('../monitor');
 
 module.exports = {
     sendMessage: async (chatId, text) => {
-        console.log(`[Telegram] Enviando mensaje a ${chatId}: ${text}`);
-        // Aquí integras tu API real
+        return withRetry(async () => {
+            monitor.logEvent('telegram', 'sendMessage', { chatId, text });
+            console.log(`[Telegram] Enviando mensaje a ${chatId}: ${text}`);
+        }, { label: 'telegram.sendMessage' });
     }
 };

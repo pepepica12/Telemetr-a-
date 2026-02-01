@@ -1,3 +1,10 @@
 module.exports = {
-    log: (...args) => console.log('[Providers]', ...args)
+    log: (...args) => {
+        const timestamp = new Date().toISOString();
+        console.log(`[Providers][${timestamp}]`, ...args);
+    },
+    error: (...args) => {
+        const timestamp = new Date().toISOString();
+        console.error(`[Providers:ERROR][${timestamp}]`, ...args);
+    }
 };

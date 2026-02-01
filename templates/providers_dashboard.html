@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Providers Dashboard</title>
+    <link rel="stylesheet" href="/static/providers.css">
+</head>
+<body>
+    <h1>Providers Dashboard</h1>
+
+    <section>
+        <h2>Health</h2>
+        <pre id="health-output">Cargando...</pre>
+    </section>
+
+    <section>
+        <h2>Enviar evento de prueba</h2>
+        <button id="btn-test">Ejecutar /providers/test</button>
+        <pre id="test-output"></pre>
+    </section>
+
+    <script>
+        async function loadHealth() {
+            const res = await fetch('/providers/health');
+            const data = await res.json();
+            document.getElementById('health-output').textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function runTest() {
+            const res = await fetch('/providers/test?provider=all');
+            const data = await res.json();
+            document.getElementById('test-output').textContent = JSON.stringify(data, null, 2);
+        }
+
+        document.getElementById('btn-test').addEventListener('click', runTest);
+
+        loadHealth();
+    </script>
+</body>
+</html>

@@ -4,7 +4,8 @@ import asyncpg
 
 app = FastAPI()
 
-DATABASE_URL = "postgresql://neondb_owner:npg_FYTwJ4vrkeC5@ep-round-rain-ahoj1chj-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require"
+import os
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 class Registro(BaseModel):
     email: str

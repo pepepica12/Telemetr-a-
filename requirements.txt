@@ -30,3 +30,4 @@ uvicorn==0.40.0
 Werkzeug==3.1.5
 wheel==0.45.1
 flask-cors
+requests

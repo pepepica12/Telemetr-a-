@@ -2,12 +2,14 @@ import os
 from flask import Flask, jsonify, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from api.registro import registro_bp
 
 # ---------------------------------------------------------
 # Inicialización de la app
 # ---------------------------------------------------------
 app = Flask(__name__)
 CORS(app)
+app.register_blueprint(registro_bp)
 
 # ---------------------------------------------------------
 # Configuración de base de datos
@@ -80,8 +82,38 @@ def providers_events():
 def providers_dashboard():
     return render_template("providers_dashboard.html")
 
+import requests
+
+TELEMETRY_NODE_URL = "https://telemtrenode123455928q7qu.vercel.app"
+
+def send_telemetry(event_type, payload):
+    try:
+        url = f"{TELEMETRY_NODE_URL}/event"
+        data = {
+            "type": event_type,
+            "payload": payload,
+        }
+        requests.post(url, json=data, timeout=3)
+    except Exception as e:
+        print("[telemetry-error]", e)
+
+from flask import request, jsonify
+
+@app.route("/search", methods=["POST"])
+def search():
+    body = request.get_json(force=True)
+    query = body.get("query", "")
+    send_telemetry("search_request", {"query": query})
+    return jsonify({"ok": True, "query": query})
+
+from flask import render_template
+
+@app.route("/dashboard/telemetry", methods=["GET"])
+def telemetry_dashboard():
+    return render_template("telemetry_dashboard.html")
+
 # ---------------------------------------------------------
-# Ejecutar servidor
+# Ejecutar servidoro
 # ---------------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
